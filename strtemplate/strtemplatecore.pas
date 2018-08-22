@@ -64,7 +64,6 @@ begin
   end;
   sz := 0;
   t := tmp.firstSection;
-  writeln('t = ', PtrUInt(t));
   while Assigned(t) do begin
     if t.isText then inc(sz, t.len)
     else inc(sz, src.LenOf(t.valName));
