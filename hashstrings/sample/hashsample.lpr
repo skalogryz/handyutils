@@ -9,9 +9,9 @@ uses
   Classes, hashstrings;
 
 var
-  st : THashedStringListEx;
+  st : THashedStringList;
 begin
-  st := THashedStringListEx.Create;
+  st := THashedStringList.Create;
   try
     st.Values['test']:='test1';
     writeln(st.Text);

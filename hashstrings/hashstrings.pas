@@ -3,7 +3,7 @@ unit HashStrings;
   The unit is THashedStringList
   developed by Dmitry Boyarintsev 9/22/2012
   * added fast key adjustement TStringHas.ModifyKeys
-  * added changes handling for put, delete and insert functionality in THashedStringListEx
+  * added changes handling for put, delete and insert functionality in THashedStringList
 }
 
 interface
@@ -39,7 +39,7 @@ type
     procedure ModifyValues(const MinValue, Delta: Integer);
   end;
 
-  THashedStringListEx = class(TStringList)
+  THashedStringList = class(TStringList)
   private
     FValueHash: TStringHash;
     FNameHash: TStringHash;
@@ -189,9 +189,9 @@ begin
     Result := -1;
 end;
 
-{ THashedStringListEx }
+{ THashedStringList }
 
-procedure THashedStringListEx.Changed;
+procedure THashedStringList.Changed;
 begin
   inherited Changed;
   if fChangeHandled=0 then begin
@@ -200,7 +200,7 @@ begin
   end;
 end;
 
-procedure THashedStringListEx.Delete(Index: Integer);
+procedure THashedStringList.Delete(Index: Integer);
 var
   nm : string;
   v  : string;
@@ -228,14 +228,14 @@ begin
     inherited Delete(Index);
 end;
 
-destructor THashedStringListEx.Destroy;
+destructor THashedStringList.Destroy;
 begin
   FValueHash.Free;
   FNameHash.Free;
   inherited Destroy;
 end;
 
-function THashedStringListEx.IndexOf(const S: string): Integer;
+function THashedStringList.IndexOf(const S: string): Integer;
 begin
   UpdateValueHash;
   if not CaseSensitive then
@@ -244,7 +244,7 @@ begin
     Result := FValueHash.ValueOf(S);
 end;
 
-function THashedStringListEx.IndexOfName(const Name: string): Integer;
+function THashedStringList.IndexOfName(const Name: string): Integer;
 begin
   UpdateNameHash;
   if not CaseSensitive then
@@ -253,7 +253,7 @@ begin
     Result := FNameHash.ValueOf(Name);
 end;
 
-procedure THashedStringListEx.InsertItem(Index: Integer; const S: string;
+procedure THashedStringList.InsertItem(Index: Integer; const S: string;
   AObject: TObject);
 var
   Key : string;
@@ -287,7 +287,7 @@ begin
     inherited InsertItem(Index, S, AObject);
 end;
 
-procedure THashedStringListEx.Put(Index: Integer; const S: string);
+procedure THashedStringList.Put(Index: Integer; const S: string);
 var
   v       : String;
   P       : Integer;
@@ -331,14 +331,14 @@ begin
   end;
 end;
 
-procedure THashedStringListEx.PutObject(Index: Integer; AObject: TObject);
+procedure THashedStringList.PutObject(Index: Integer; AObject: TObject);
 begin
   inc(fChangeHandled);
   inherited;
   dec(fChangeHandled);
 end;
 
-procedure THashedStringListEx.UpdateNameHash;
+procedure THashedStringList.UpdateNameHash;
 var
   I: Integer;
   P: Integer;
@@ -366,7 +366,7 @@ begin
   FNameHashValid := True;
 end;
 
-procedure THashedStringListEx.UpdateValueHash;
+procedure THashedStringList.UpdateValueHash;
 var
   I: Integer;
 begin
